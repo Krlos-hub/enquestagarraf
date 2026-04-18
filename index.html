@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parc Natural del Garraf – Qüestionari offline</title>
+  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=1iMMizyj5F-G-PSgPdBVrY9U0soZzRe8GncMOwb60E_7OEQTBOAnJSyDdWghySircaA4al0ZRAK-jGEHNe1oYVu8OXo364ysE6LOPZlQVfKGS6UF-agrRkp_pc9iCi0tq89_49i5HPzqRP3yImiqCy1dt2go9XAuci4gHr8xK2n3HiGn1e6sn6O1YPv0gm5svbum1iI7NNrN3Np9QXaYYQ-9qTBXhaEPIfPnLEikUUJ_DJzjprTmOLGpIqzrGJ_1uRMPfpZE3dWBLtN6JPZfFQ" charset="UTF-8"></script><style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #d1d5db;
+      --accent: #2563eb;
+      --accent-2: #1d4ed8;
+      --ok: #166534;
+      --warn: #92400e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .hero, .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .hero { padding: 20px; margin-bottom: 16px; }
+    .card { padding: 18px; margin-bottom: 14px; }
+    h1 { margin: 0 0 8px; font-size: 1.7rem; }
+    h2 { margin: 0 0 12px; font-size: 1.2rem; }
+    h3 { margin: 18px 0 8px; font-size: 1rem; }
+    p { margin: 8px 0; }
+    .muted { color: var(--muted); }
+    .grid { display: grid; gap: 12px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    @media (max-width: 760px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    input[type="text"], input[type="number"], textarea, select {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font: inherit;
+      background: #fff;
+    }
+    textarea { min-height: 84px; resize: vertical; }
+    .opts { display: grid; gap: 8px; }
+    .inline-opts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 18px;
+      align-items: center;
+    }
+    .opt {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-weight: 500;
+    }
+    .section { display: none; }
+    .section.active { display: block; }
+    .subsection {
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 10px;
+      background: #fcfcfd;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: white;
+    }
+    button.secondary { background: #e5e7eb; color: #111827; }
+    button.good { background: var(--ok); }
+    button.warn { background: #b45309; }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: var(--accent-2);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .footer-note {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .rating {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .rating label { font-weight: 500; margin: 0; }
+    .hidden { display: none !important; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .small { font-size: 0.92rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <span class="pill">Offline</span>
+      <h1>Parc Natural del Garraf – Qüestionari</h1>
+      <p>Aplicació d'una sola pàgina per respondre sense connexió. Guarda les dades al dispositiu, permet exportar-les en JSON o CSV i replica el qüestionari del PDF adjunt.</p>
+      <p class="muted small">Compatible amb mòbil, tauleta i ordinador. Funciona obrint aquest fitxer HTML directament, sense internet.</p>
+      <div class="toolbar">
+        <button type="button" onclick="saveDraft()">Guardar esborrany</button>
+        <button type="button" class="secondary" onclick="loadDraft()">Carregar esborrany</button>
+        <button type="button" class="good" onclick="addSurvey()">Afegir resposta</button>
+        <button type="button" class="secondary" onclick="newSurvey()">Nova enquesta</button>
+        <button type="button" class="good" onclick="exportAllCSV()">Exportar totes a CSV</button>
+        <button type="button" class="good" onclick="exportAllJSON()">Exportar totes a JSON</button>
+        <button type="button" class="secondary" onclick="exportJSON()">Exportar aquesta en JSON</button>
+        <button type="button" class="secondary" onclick="exportCSV()">Exportar aquesta en CSV</button>
+        <button type="button" class="warn" onclick="clearFormAll()">Buidar formulari</button>
+      </div>
+      <div id="status" class="status">Sense canvis desats.</div>
+    </div>
+
+    <form id="surveyForm">
+      <div class="card">
+        <h2>1. Tipus d'usuari</h2>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="userType" value="Vianant" onchange="switchSection()" /> Vianant</label>
+          <label class="opt"><input type="radio" name="userType" value="Ciclista" onchange="switchSection()" /> Ciclista</label>
+          <label class="opt"><input type="radio" name="userType" value="Només he fet servir cotxe (Monestir Budista)" onchange="switchSection()" /> Només he fet servir cotxe (Monestir Budista)</label>
+        </div>
+      </div>
+
+      <div id="sharedInfo" class="card hidden">
+        <h2>Dades generals</h2>
+        <div class="grid grid-2">
+          <div>
+            <label for="groupSize">Si és un grup, indica el número de persones</label>
+            <input id="groupSize" name="groupSize" type="number" min="1" />
+          </div>
+          <div>
+            <label for="age">Edat</label>
+            <input id="age" name="age" type="number" min="0" />
+          </div>
+        </div>
+      </div>
+
+      <section id="vianantSection" class="section">
+        <div class="card">
+          <h2>Enquesta a vianants</h2>
+          <div class="grid grid-2">
+            <div>
+              <label>Sexe</label>
+              <div class="inline-opts">
+                <label class="opt"><input type="radio" name="ped_sexe" value="Home" /> Home</label>
+                <label class="opt"><input type="radio" name="ped_sexe" value="Dona" /> Dona</label>
+              </div>
+            </div>
+            <div>
+              <label>Per quin mitjà coneix el parc?</label>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="ped_coneix" value="Xarxes socials" /> Xarxes socials</label>
+                <label class="opt"><input type="radio" name="ped_coneix" value="Boca-orella" /> Boca-orella</label>
+                <label class="opt"><input type="radio" name="ped_coneix" value="Senyalització" /> Senyalització</label>
+                <label class="opt"><input type="radio" name="ped_coneix" value="Altre" onchange="toggleOther('ped_coneix_other_wrap', this.checked)" /> Altre</label>
+                <input id="ped_coneix_other_wrap" class="hidden" type="text" name="ped_coneix_altre" placeholder="Especifica" />
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div>
+              <label for="ped_origen">Origen del desplaçament (municipi)</label>
+              <input id="ped_origen" name="ped_origen" type="text" />
+            </div>
+            <div>
+              <label>Quin és el seu mode principal de desplaçament fins al parc?</label>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="ped_mode" value="A peu" onchange="updatePedMode()" /> A peu</label>
+                <label class="opt"><input type="radio" name="ped_mode" value="Transport públic" onchange="updatePedMode()" /> Transport públic</label>
+                <label class="opt"><input type="radio" name="ped_mode" value="Vehicle privat" onchange="updatePedMode()" /> Vehicle privat</label>
+                <label class="opt"><input type="radio" name="ped_mode" value="Altre" onchange="updatePedMode(); toggleOther('ped_mode_other', this.checked)" /> Altre</label>
+                <input id="ped_mode_other" class="hidden" type="text" name="ped_mode_altre" placeholder="Especifica" />
+              </div>
+            </div>
+          </div>
+
+          <div id="ped_tp" class="subsection hidden">
+            <h3>Si transport públic</h3>
+            <div class="grid grid-2">
+              <div>
+                <label>Ha agafat més d'1 mitjà de transport públic per arribar al parc?</label>
+                <div class="inline-opts">
+                  <label class="opt"><input type="radio" name="ped_tp_multi" value="Sí" /> Sí</label>
+                  <label class="opt"><input type="radio" name="ped_tp_multi" value="No" /> No</label>
+                </div>
+              </div>
+              <div>
+                <label>Marcar el que hagi agafat (potser només 1)</label>
+                <div class="inline-opts">
+                  <label class="opt"><input type="checkbox" name="ped_tp_types" value="Bus" /> Bus</label>
+                  <label class="opt"><input type="checkbox" name="ped_tp_types" value="Tren" /> Tren</label>
+                  <label class="opt"><input type="checkbox" name="ped_tp_types" value="Metro" /> Metro</label>
+                  <label class="opt"><input type="checkbox" name="ped_tp_types" value="FGC" /> FGC</label>
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-2">
+              <div>
+                <label for="ped_tp_linia">Línia utilitzada per arribar fins al parc</label>
+                <input id="ped_tp_linia" name="ped_tp_linia" type="text" />
+              </div>
+              <div>
+                <label for="ped_tp_parada">Parada on baixa</label>
+                <input id="ped_tp_parada" name="ped_tp_parada" type="text" />
+              </div>
+            </div>
+          </div>
+
+          <div id="ped_vp" class="subsection hidden">
+            <h3>Si vehicle privat</h3>
+            <div class="grid grid-2">
+              <div>
+                <label>Disposa de vehicle privat?</label>
+                <div class="inline-opts">
+                  <label class="opt"><input type="radio" name="ped_vp_disp" value="Sí" /> Sí</label>
+                  <label class="opt"><input type="radio" name="ped_vp_disp" value="No" /> No</label>
+                </div>
+              </div>
+              <div>
+                <label for="ped_aparcament">A quin aparcament ha deixat el vehicle?</label>
+                <input id="ped_aparcament" name="ped_aparcament" type="text" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Informació general</h2>
+          <div class="grid grid-2">
+            <div>
+              <label for="ped_acces">Per on ha accedit al parc? (Porta d'accés al parc)</label>
+              <input id="ped_acces" name="ped_acces" type="text" />
+            </div>
+            <div>
+              <label>Freqüència de visita</label>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="ped_freq" value="1 cop al mes" /> 1 cop al mes</label>
+                <label class="opt"><input type="radio" name="ped_freq" value="Varios cops al mes" /> Varios cops al mes</label>
+                <label class="opt"><input type="radio" name="ped_freq" value="Algun cop a l'any" /> Algun cop a l'any</label>
+                <label class="opt"><input type="radio" name="ped_freq" value="És la primera vegada" /> És la primera vegada</label>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-3">
+            <div>
+              <label for="ped_temps_despl">Temps de desplaçament per arribar al parc</label>
+              <input id="ped_temps_despl" name="ped_temps_despl" type="text" placeholder="p. ex. 35 min" />
+            </div>
+            <div>
+              <label for="ped_temps_estada">Temps d'estada al parc</label>
+              <input id="ped_temps_estada" name="ped_temps_estada" type="text" placeholder="p. ex. 2 h" />
+            </div>
+            <div>
+              <label>Opinió sobre la mobilitat i la senyalització</label>
+              <div class="rating">
+                <span class="muted">Molt dolenta</span>
+                <label><input type="radio" name="ped_opinio" value="1" /> 1</label>
+                <label><input type="radio" name="ped_opinio" value="2" /> 2</label>
+                <label><input type="radio" name="ped_opinio" value="3" /> 3</label>
+                <label><input type="radio" name="ped_opinio" value="4" /> 4</label>
+                <label><input type="radio" name="ped_opinio" value="5" /> 5</label>
+                <span class="muted">Molt bona</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Quins problemes relacionats amb la mobilitat troba?</label>
+            <div class="inline-opts">
+              <label class="opt"><input type="checkbox" name="ped_problems" value="Accessibilitat" /> Accessibilitat</label>
+              <label class="opt"><input type="checkbox" name="ped_problems" value="Seguretat viària" /> Seguretat viària</label>
+              <label class="opt"><input type="checkbox" name="ped_problems" value="Senyalització" /> Senyalització</label>
+              <label class="opt"><input type="checkbox" name="ped_problems" value="Aparcament" /> Aparcament</label>
+              <label class="opt"><input type="checkbox" name="ped_problems" value="Oferta de transport públic" /> Oferta de transport públic</label>
+              <label class="opt"><input type="checkbox" name="ped_problems" value="Massificació" /> Massificació</label>
+              <label class="opt"><input type="checkbox" name="ped_problems" value="Estat dels camins" /> Estat dels camins</label>
+              <label class="opt"><input type="checkbox" name="ped_problems" value="Pendent" /> Pendent</label>
+              <label class="opt"><input type="checkbox" name="ped_problems" value="Altre" onchange="toggleOther('ped_problems_altre', this.checked)" /> Altre</label>
+            </div>
+            <input id="ped_problems_altre" class="hidden" type="text" name="ped_problems_altre" placeholder="Especifica" />
+          </div>
+          <div>
+            <label for="ped_itineraris">Principals itineraris utilitzats</label>
+            <textarea id="ped_itineraris" name="ped_itineraris"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section id="ciclistaSection" class="section">
+        <div class="card">
+          <h2>Enquesta a ciclistes</h2>
+          <div class="grid grid-2">
+            <div>
+              <label>Sexe</label>
+              <div class="inline-opts">
+                <label class="opt"><input type="radio" name="cyc_sexe" value="Home" /> Home</label>
+                <label class="opt"><input type="radio" name="cyc_sexe" value="Dona" /> Dona</label>
+              </div>
+            </div>
+            <div>
+              <label>Per quin mitjà coneix el parc?</label>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="cyc_coneix" value="Xarxes socials" /> Xarxes socials</label>
+                <label class="opt"><input type="radio" name="cyc_coneix" value="Boca-orella" /> Boca-orella</label>
+                <label class="opt"><input type="radio" name="cyc_coneix" value="Senyalització" /> Senyalització</label>
+                <label class="opt"><input type="radio" name="cyc_coneix" value="Altre" onchange="toggleOther('cyc_coneix_altre', this.checked)" /> Altre</label>
+                <input id="cyc_coneix_altre" class="hidden" type="text" name="cyc_coneix_altre" placeholder="Especifica" />
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div>
+              <label for="cyc_origen">Origen del desplaçament (municipi)</label>
+              <input id="cyc_origen" name="cyc_origen" type="text" />
+            </div>
+            <div>
+              <label>Quin és el seu mode principal de desplaçament al parc?</label>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="cyc_mode" value="Bicicleta" onchange="updateCycMode()" /> Bicicleta</label>
+                <label class="opt"><input type="radio" name="cyc_mode" value="Transport públic" onchange="updateCycMode()" /> Transport públic</label>
+                <label class="opt"><input type="radio" name="cyc_mode" value="Vehicle privat" onchange="updateCycMode()" /> Vehicle privat</label>
+                <label class="opt"><input type="radio" name="cyc_mode" value="Altre" onchange="updateCycMode(); toggleOther('cyc_mode_altre', this.checked)" /> Altre</label>
+                <input id="cyc_mode_altre" class="hidden" type="text" name="cyc_mode_altre" placeholder="Especifica" />
+              </div>
+            </div>
+          </div>
+
+          <div id="cyc_tp" class="subsection hidden">
+            <h3>Si transport públic</h3>
+            <div class="grid grid-2">
+              <div>
+                <label>Ha agafat més d'1 mitjà de transport públic per arribar al parc?</label>
+                <div class="inline-opts">
+                  <label class="opt"><input type="radio" name="cyc_tp_multi" value="Sí" /> Sí</label>
+                  <label class="opt"><input type="radio" name="cyc_tp_multi" value="No" /> No</label>
+                </div>
+              </div>
+              <div>
+                <label>Marcar el que hagi agafat (pot ser només 1)</label>
+                <div class="inline-opts">
+                  <label class="opt"><input type="checkbox" name="cyc_tp_types" value="Bus" /> Bus</label>
+                  <label class="opt"><input type="checkbox" name="cyc_tp_types" value="Tren" /> Tren</label>
+                  <label class="opt"><input type="checkbox" name="cyc_tp_types" value="Metro" /> Metro</label>
+                  <label class="opt"><input type="checkbox" name="cyc_tp_types" value="FGC" /> FGC</label>
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-2">
+              <div>
+                <label for="cyc_tp_linia">Línia utilitzada per arribar fins al parc</label>
+                <input id="cyc_tp_linia" name="cyc_tp_linia" type="text" />
+              </div>
+              <div>
+                <label for="cyc_tp_parada">Parada on baixa</label>
+                <input id="cyc_tp_parada" name="cyc_tp_parada" type="text" />
+              </div>
+            </div>
+          </div>
+
+          <div id="cyc_vp" class="subsection hidden">
+            <h3>Si vehicle privat</h3>
+            <div class="grid grid-2">
+              <div>
+                <label>Disposa de vehicle privat?</label>
+                <div class="inline-opts">
+                  <label class="opt"><input type="radio" name="cyc_vp_disp" value="Sí" /> Sí</label>
+                  <label class="opt"><input type="radio" name="cyc_vp_disp" value="No" /> No</label>
+                </div>
+              </div>
+              <div>
+                <label for="cyc_aparcament">A quin aparcament ha deixat el vehicle?</label>
+                <input id="cyc_aparcament" name="cyc_aparcament" type="text" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Informació general</h2>
+          <div class="grid grid-2">
+            <div>
+              <label for="cyc_acces">Per on ha accedit al parc? (Porta d'accés al parc)</label>
+              <input id="cyc_acces" name="cyc_acces" type="text" />
+            </div>
+            <div>
+              <label>Freqüència de visita</label>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="cyc_freq" value="1 cop al mes" /> 1 cop al mes</label>
+                <label class="opt"><input type="radio" name="cyc_freq" value="Varios cops al mes" /> Varios cops al mes</label>
+                <label class="opt"><input type="radio" name="cyc_freq" value="Algun cop a l'any" /> Algun cop a l'any</label>
+                <label class="opt"><input type="radio" name="cyc_freq" value="És la primera vegada" /> És la primera vegada</label>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-3">
+            <div>
+              <label for="cyc_temps_despl">Temps de desplaçament per arribar al parc</label>
+              <input id="cyc_temps_despl" name="cyc_temps_despl" type="text" placeholder="p. ex. 35 min" />
+            </div>
+            <div>
+              <label for="cyc_temps_estada">Temps d'estada al parc</label>
+              <input id="cyc_temps_estada" name="cyc_temps_estada" type="text" placeholder="p. ex. 2 h" />
+            </div>
+            <div>
+              <label>Opinió sobre la mobilitat i la senyalització</label>
+              <div class="rating">
+                <span class="muted">Molt dolenta</span>
+                <label><input type="radio" name="cyc_opinio" value="1" /> 1</label>
+                <label><input type="radio" name="cyc_opinio" value="2" /> 2</label>
+                <label><input type="radio" name="cyc_opinio" value="3" /> 3</label>
+                <label><input type="radio" name="cyc_opinio" value="4" /> 4</label>
+                <label><input type="radio" name="cyc_opinio" value="5" /> 5</label>
+                <span class="muted">Molt bona</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Quins factors condicionen o limiten l'itinerari?</label>
+            <div class="inline-opts">
+              <label class="opt"><input type="checkbox" name="cyc_limits" value="Seguretat viària" /> Seguretat viària</label>
+              <label class="opt"><input type="checkbox" name="cyc_limits" value="Trànsit motoritzat" /> Trànsit motoritzat</label>
+              <label class="opt"><input type="checkbox" name="cyc_limits" value="Estat del ferm" /> Estat del ferm</label>
+              <label class="opt"><input type="checkbox" name="cyc_limits" value="Pendent" /> Pendent</label>
+              <label class="opt"><input type="checkbox" name="cyc_limits" value="Senyalització" /> Senyalització</label>
+              <label class="opt"><input type="checkbox" name="cyc_limits" value="Aparcament de bicicletes" /> Aparcament de bicicletes</label>
+              <label class="opt"><input type="checkbox" name="cyc_limits" value="Massificació" /> Massificació</label>
+              <label class="opt"><input type="checkbox" name="cyc_limits" value="Altres" onchange="toggleOther('cyc_limits_altre', this.checked)" /> Altres</label>
+            </div>
+            <input id="cyc_limits_altre" class="hidden" type="text" name="cyc_limits_altre" placeholder="Especifica" />
+          </div>
+          <div>
+            <label for="cyc_itineraris">Principals itineraris utilitzats</label>
+            <textarea id="cyc_itineraris" name="cyc_itineraris"></textarea>
+          </div>
+        </div>
+      </section>
+    </form>
+
+    <div class="card">
+      <h2>Resum ràpid</h2>
+      <div id="summary"></div>
+      <p class="footer-note">Quan acabis una entrevista, prem <strong>Afegir resposta</strong>. Després pots prémer <strong>Nova enquesta</strong> per començar la següent sense perdre les anteriors.</p>
+    </div>
+
+    <div class="card">
+      <h2>Entrevistes guardades en aquest dispositiu</h2>
+      <p class="muted small">Aquest llistat es desa localment dins del navegador fins que exportis o esborris les dades.</p>
+      <div id="responsesSummary" class="status"></div>
+      <div id="responsesTable"></div>
+      <div class="toolbar">
+        <button type="button" class="good" onclick="exportAllCSV()">Exportar totes a CSV</button>
+        <button type="button" class="good" onclick="exportAllJSON()">Exportar totes a JSON</button>
+        <button type="button" class="warn" onclick="clearStoredResponses()">Esborrar entrevistes guardades</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'garraf_questionnaire_offline_v2_draft';
+    const RESPONSES_KEY = 'garraf_questionnaire_offline_v2_responses';
+
+    function qs(sel, root = document) { return root.querySelector(sel); }
+    function qsa(sel, root = document) { return Array.from(root.querySelectorAll(sel)); }
+
+    function toggleOther(id, show) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.toggle('hidden', !show);
+      if (!show) el.value = '';
+    }
+
+    function switchSection() {
+      const val = (qs('input[name="userType"]:checked') || {}).value || '';
+      qs('#sharedInfo').classList.toggle('hidden', !val);
+      qs('#vianantSection').classList.toggle('active', val === 'Vianant' || val === 'Només he fet servir cotxe (Monestir Budista)');
+      qs('#ciclistaSection').classList.toggle('active', val === 'Ciclista');
+      updatePedMode();
+      updateCycMode();
+      updateSummary();
+    }
+
+    function updatePedMode() {
+      const val = (qs('input[name="ped_mode"]:checked') || {}).value || '';
+      qs('#ped_tp').classList.toggle('hidden', val !== 'Transport públic');
+      qs('#ped_vp').classList.toggle('hidden', val !== 'Vehicle privat');
+    }
+
+    function updateCycMode() {
+      const val = (qs('input[name="cyc_mode"]:checked') || {}).value || '';
+      qs('#cyc_tp').classList.toggle('hidden', val !== 'Transport públic');
+      qs('#cyc_vp').classList.toggle('hidden', val !== 'Vehicle privat');
+    }
+
+    function serializeForm() {
+      const form = qs('#surveyForm');
+      const data = {};
+      qsa('input, textarea, select', form).forEach(el => {
+        if (!el.name) return;
+        if (el.type === 'radio') {
+          if (el.checked) data[el.name] = el.value;
+          else if (!(el.name in data)) data[el.name] = '';
+        } else if (el.type === 'checkbox') {
+          if (!Array.isArray(data[el.name])) data[el.name] = [];
+          if (el.checked) data[el.name].push(el.value);
+        } else {
+          data[el.name] = el.value || '';
+        }
+      });
+      data._savedAt = new Date().toISOString();
+      return data;
+    }
+
+    function fillForm(data) {
+      if (!data || typeof data !== 'object') return;
+      qsa('input, textarea, select', qs('#surveyForm')).forEach(el => {
+        if (!el.name || !(el.name in data)) return;
+        if (el.type === 'radio') {
+          el.checked = data[el.name] === el.value;
+        } else if (el.type === 'checkbox') {
+          el.checked = Array.isArray(data[el.name]) && data[el.name].includes(el.value);
+        } else {
+          el.value = data[el.name] || '';
+        }
+      });
+      switchSection();
+      updatePedMode();
+      updateCycMode();
+      qsa('input[type="radio"]').forEach(r => {
+        if (r.name === 'ped_coneix' && r.value === 'Altre') toggleOther('ped_coneix_other_wrap', r.checked);
+        if (r.name === 'ped_mode' && r.value === 'Altre') toggleOther('ped_mode_other', r.checked);
+        if (r.name === 'cyc_coneix' && r.value === 'Altre') toggleOther('cyc_coneix_altre', r.checked);
+        if (r.name === 'cyc_mode' && r.value === 'Altre') toggleOther('cyc_mode_altre', r.checked);
+      });
+      const pedOther = qsa('input[name="ped_problems"]').find(x => x.value === 'Altre');
+      const cycOther = qsa('input[name="cyc_limits"]').find(x => x.value === 'Altres');
+      toggleOther('ped_problems_altre', pedOther && pedOther.checked);
+      toggleOther('cyc_limits_altre', cycOther && cycOther.checked);
+      updateSummary();
+    }
+
+    function saveDraft() {
+      const data = serializeForm();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      setStatus('Guardat al dispositiu: ' + new Date().toLocaleString());
+      updateSummary();
+    }
+
+    function loadDraft() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        setStatus('No hi ha cap guardat local.');
+        return;
+      }
+      try {
+        fillForm(JSON.parse(raw));
+        setStatus('Guardat carregat correctament.');
+      } catch (e) {
+        setStatus('No s\'ha pogut carregar el guardat.');
+      }
+    }
+
+    function resetFormFields() {
+      qs('#surveyForm').reset();
+      qsa('.section').forEach(s => s.classList.remove('active'));
+      qs('#sharedInfo').classList.add('hidden');
+      qsa('.subsection').forEach(s => s.classList.add('hidden'));
+      qsa('.hidden[type="text"], input.hidden').forEach(el => el.value = '');
+      qsa('#ped_coneix_other_wrap, #ped_mode_other, #ped_problems_altre, #cyc_coneix_altre, #cyc_mode_altre, #cyc_limits_altre').forEach(el => {
+        if (el) { el.classList.add('hidden'); el.value = ''; }
+      });
+    }
+
+    function clearFormAll() {
+      if (!confirm('Vols buidar el formulari actual i l\'esborrany local?')) return;
+      resetFormFields();
+      localStorage.removeItem(STORAGE_KEY);
+      updateSummary();
+      setStatus('Formulari buit i esborrany local esborrat.');
+    }
+
+    function newSurvey() {
+      if (!confirm('Vols començar una nova enquesta? El formulari actual es buidarà però les entrevistes ja guardades es mantindran.')) return;
+      resetFormFields();
+      localStorage.removeItem(STORAGE_KEY);
+      updateSummary();
+      setStatus('Nova enquesta preparada.');
+    }
+
+    function getResponses() {
+      const raw = localStorage.getItem(RESPONSES_KEY);
+      if (!raw) return [];
+      try {
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveResponses(arr) {
+      localStorage.setItem(RESPONSES_KEY, JSON.stringify(arr));
+    }
+
+    function addSurvey() {
+      const data = serializeForm();
+      const hasContent = Object.entries(data).some(([k, v]) => k !== '_savedAt' && ((Array.isArray(v) && v.length) || (!Array.isArray(v) && String(v).trim() !== '')));
+      if (!hasContent) {
+        setStatus('No hi ha dades per afegir.');
+        return;
+      }
+      data._id = crypto.randomUUID ? crypto.randomUUID() : ('id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+      data._addedAt = new Date().toISOString();
+      const responses = getResponses();
+      responses.push(data);
+      saveResponses(responses);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      renderResponses();
+      updateSummary();
+      setStatus('Resposta afegida. Ja en tens ' + responses.length + ' guardada(es).');
+    }
+
+    function deleteResponse(id) {
+      if (!confirm('Vols eliminar aquesta entrevista guardada?')) return;
+      const responses = getResponses().filter(r => r._id !== id);
+      saveResponses(responses);
+      renderResponses();
+      setStatus('Entrevista eliminada.');
+    }
+
+    function clearStoredResponses() {
+      if (!confirm('Vols esborrar totes les entrevistes guardades en aquest dispositiu?')) return;
+      localStorage.removeItem(RESPONSES_KEY);
+      renderResponses();
+      setStatus('Entrevistes guardades esborrades.');
+    }
+
+    function setStatus(msg) {
+      qs('#status').textContent = msg;
+    }
+
+    function exportJSON() {
+      const data = serializeForm();
+      downloadFile(JSON.stringify(data, null, 2), fileNameBase('actual') + '.json', 'application/json');
+      setStatus('Exportada l\'enquesta actual en JSON.');
+    }
+
+    function exportCSV() {
+      const data = serializeForm();
+      const flat = flattenData(data);
+      const headers = Object.keys(flat);
+      const escape = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+      const csv = headers.map(escape).join(',') + '\n' + headers.map(h => escape(flat[h])).join(',');
+      downloadFile(csv, fileNameBase('actual') + '.csv', 'text/csv;charset=utf-8');
+      setStatus('Exportada l\'enquesta actual en CSV.');
+    }
+
+    function exportAllJSON() {
+      const responses = getResponses();
+      downloadFile(JSON.stringify(responses, null, 2), fileNameBase('totes') + '.json', 'application/json');
+      setStatus('Exportades totes les entrevistes en JSON.');
+    }
+
+    function exportAllCSV() {
+      const responses = getResponses();
+      if (!responses.length) {
+        setStatus('No hi ha entrevistes guardades per exportar.');
+        return;
+      }
+      const flatRows = responses.map(flattenData);
+      const headers = Array.from(new Set(flatRows.flatMap(row => Object.keys(row))));
+      const escape = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+      const lines = [
+        headers.map(escape).join(','),
+        ...flatRows.map(row => headers.map(h => escape(row[h] ?? '')).join(','))
+      ];
+      downloadFile(lines.join('\n'), fileNameBase('totes') + '.csv', 'text/csv;charset=utf-8');
+      setStatus('Exportades totes les entrevistes en CSV.');
+    }
+
+    function flattenData(data) {
+      const out = {};
+      for (const [k, v] of Object.entries(data)) {
+        out[k] = Array.isArray(v) ? v.join(' | ') : v;
+      }
+      return out;
+    }
+
+    function fileNameBase(kind = 'actual') {
+      const ts = new Date().toISOString().replace(/[:.]/g, '-');
+      return 'garraf_questionari_' + kind + '_' + ts;
+    }
+
+    function downloadFile(content, filename, mime) {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderResponses() {
+      const responses = getResponses();
+      qs('#responsesSummary').textContent = responses.length
+        ? ('Total d\'entrevistes guardades: ' + responses.length)
+        : 'Encara no hi ha entrevistes guardades.';
+      if (!responses.length) {
+        qs('#responsesTable').innerHTML = '';
+        return;
+      }
+      const rows = responses.map((r, i) => `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${escapeHtml(new Date(r._addedAt || r._savedAt || Date.now()).toLocaleString())}</td>
+          <td>${escapeHtml(r.userType || '-')}</td>
+          <td>${escapeHtml(r.age || '-')}</td>
+          <td>${escapeHtml(r.groupSize || '-')}</td>
+          <td>${escapeHtml(r.ped_mode || r.cyc_mode || '-')}</td>
+          <td><button type="button" class="warn" onclick="deleteResponse('${String(r._id).replace(/'/g, "&#039;")}')">Eliminar</button></td>
+        </tr>
+      `).join('');
+      qs('#responsesTable').innerHTML = `<table><tr><th>#</th><th>Data</th><th>Tipus</th><th>Edat</th><th>Grup</th><th>Mode</th><th>Acció</th></tr>${rows}</table>`;
+    }
+
+    function updateSummary() {
+      const data = serializeForm();
+      const rows = [
+        ['Tipus d\'usuari', data.userType || '-'],
+        ['Edat', data.age || '-'],
+        ['Grup', data.groupSize || '-'],
+        ['Mode principal vianant', data.ped_mode || '-'],
+        ['Mode principal ciclista', data.cyc_mode || '-'],
+        ['Temps de desplaçament vianant', data.ped_temps_despl || '-'],
+        ['Temps de desplaçament ciclista', data.cyc_temps_despl || '-']
+      ];
+      qs('#summary').innerHTML = '<table><tr><th>Camp</th><th>Valor</th></tr>' + rows.map(r => `<tr><td>${escapeHtml(r[0])}</td><td>${escapeHtml(r[1])}</td></tr>`).join('') + '</table>';
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    qsa('input, textarea, select').forEach(el => {
+      el.addEventListener('input', () => {
+        updateSummary();
+        setStatus('Canvis pendents de desar.');
+      });
+      el.addEventListener('change', () => {
+        updateSummary();
+        setStatus('Canvis pendents de desar.');
+      });
+    });
+
+    loadDraft();
+    renderResponses();
+    updateSummary();
+  </script>
+</body>
+</html>
